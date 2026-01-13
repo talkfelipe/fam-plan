@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import EventForm from './EventForm';
 
-function EventModal({ isOpen, onClose, onEventCreated }) {
+function EventModal({ isOpen, onClose, onEventCreated, initialDate }) {
   // Close modal on Escape key press
   useEffect(() => {
     const handleEscape = (e) => {
@@ -50,7 +50,7 @@ function EventModal({ isOpen, onClose, onEventCreated }) {
           </button>
         </div>
         <div className="modal-body">
-          <EventForm onSuccess={handleSuccess} onCancel={onClose} />
+          <EventForm onSuccess={handleSuccess} onCancel={onClose} initialDate={initialDate} />
         </div>
       </div>
     </div>

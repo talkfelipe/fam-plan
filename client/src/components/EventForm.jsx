@@ -1,9 +1,14 @@
 import { useState } from 'react';
 import { eventsAPI } from '../services/api';
-import { getDefaultFormValues, combineDateTime } from '../utils/dateHelpers';
+import { getDefaultFormValues, getDefaultFormValuesForDate, combineDateTime } from '../utils/dateHelpers';
 
-function EventForm({ onSuccess, onCancel }) {
-  const [formData, setFormData] = useState(getDefaultFormValues());
+function EventForm({ onSuccess, onCancel, initialDate }) {
+  const [formData, setFormData] = useState(() => {
+    if (initialDate) {
+      return getDefaultFormValuesForDate(initialDate);
+    }
+    return getDefaultFormValues();
+  });
   const [errors, setErrors] = useState({});
   const [apiError, setApiError] = useState('');
   const [isLoading, setIsLoading] = useState(false);

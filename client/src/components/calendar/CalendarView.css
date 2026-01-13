@@ -1,0 +1,64 @@
+.calendar-view {
+  width: 100%;
+  min-height: 600px;
+}
+
+/* Custom event styling */
+.custom-event {
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.custom-event:hover {
+  opacity: 0.85;
+}
+
+/* Additional calendar cell styling */
+.rbc-month-view {
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.rbc-month-row {
+  border-top: 1px solid var(--border-color);
+}
+
+.rbc-day-bg {
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.rbc-day-bg:hover {
+  background-color: rgba(59, 130, 246, 0.05);
+}
+
+.rbc-off-range {
+  color: var(--text-light);
+  opacity: 0.5;
+}
+
+/* Event overflow indicator */
+.rbc-show-more {
+  background-color: transparent;
+  color: var(--primary-color);
+  font-size: 0.75rem;
+  padding: 2px 4px;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.rbc-show-more:hover {
+  color: var(--primary-hover);
+}
+
+/* Month header styling */
+.rbc-month-header {
+  background-color: var(--bg-color);
+}
+
+/* Today indicator in date cell */
+.rbc-now {
+  font-weight: 700;
+  color: var(--primary-color);
+}

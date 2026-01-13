@@ -61,3 +61,28 @@ export const getDefaultFormValues = () => {
     event_type: 'other',
   };
 };
+
+// Get default form values for a specific date
+export const getDefaultFormValuesForDate = (date) => {
+  // Create a new Date at the specified date with current time
+  const targetDate = new Date(date);
+  const now = new Date();
+
+  // Set the time to current time on the target date
+  targetDate.setHours(now.getHours(), now.getMinutes(), 0, 0);
+
+  // Round to nearest 15 minutes
+  const startTime = roundToNearest15(targetDate);
+  const endTime = getDefaultEndTime(startTime);
+
+  return {
+    title: '',
+    description: '',
+    start_date: formatDateForInput(startTime),
+    start_time: formatTimeForInput(startTime),
+    end_date: formatDateForInput(endTime),
+    end_time: formatTimeForInput(endTime),
+    all_day: false,
+    event_type: 'other',
+  };
+};
