@@ -1,11 +1,26 @@
 Rails.application.routes.draw do
   root to: "pages#home"
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
+
+  # API routes (for React frontend)
+  namespace :api do
+    # Devise routes for authentication with custom controllers
+    devise_for :users,
+               path: '',
+               path_names: {
+                 sign_in: 'login',
+                 sign_out: 'logout',
+                 registration: 'signup'
+               },
+               controllers: {
+                 sessions: 'api/sessions',
+                 registrations: 'api/registrations'
+               }
+
+    # Calendar events endpoints
+    resources :events, only: [:index, :show, :create, :update, :destroy]
+  end
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
   # Can be used by load balancers and uptime monitors to verify that the app is live.
   get "up" => "rails/health#show", as: :rails_health_check
-
-  # Defines the root path route ("/")
-  # root "posts#index"
 end
