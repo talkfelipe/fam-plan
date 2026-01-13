@@ -22,13 +22,19 @@ export const AuthProvider = ({ children }) => {
   // Check if user is logged in on app load
   useEffect(() => {
     const token = localStorage.getItem('token');
-    if (token) {
-      // You could validate the token here by making an API call
-      // For now, we'll just check if it exists
-      setLoading(false);
-    } else {
-      setLoading(false);
+    const storedUser = localStorage.getItem('user');
+
+    if (token && storedUser) {
+      try {
+        // Restore user data from localStorage
+        setUser(JSON.parse(storedUser));
+      } catch (error) {
+        console.error('Failed to parse stored user:', error);
+        localStorage.removeItem('user');
+        localStorage.removeItem('token');
+      }
     }
+    setLoading(false);
   }, []);
 
   // Login function
@@ -36,6 +42,8 @@ export const AuthProvider = ({ children }) => {
     try {
       const data = await authAPI.login(credentials);
       setUser(data.user);
+      // Store user data in localStorage to persist across refreshes
+      localStorage.setItem('user', JSON.stringify(data.user));
       return { success: true };
     } catch (error) {
       return {
@@ -50,6 +58,8 @@ export const AuthProvider = ({ children }) => {
     try {
       const data = await authAPI.signup(userData);
       setUser(data.user);
+      // Store user data in localStorage to persist across refreshes
+      localStorage.setItem('user', JSON.stringify(data.user));
       return { success: true };
     } catch (error) {
       return {
@@ -64,8 +74,13 @@ export const AuthProvider = ({ children }) => {
     try {
       await authAPI.logout();
       setUser(null);
+      // Clear user data from localStorage
+      localStorage.removeItem('user');
     } catch (error) {
       console.error('Logout error:', error);
+      // Clear local data even if API call fails
+      setUser(null);
+      localStorage.removeItem('user');
     }
   };
 

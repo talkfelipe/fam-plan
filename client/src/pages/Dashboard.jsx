@@ -1,12 +1,14 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { eventsAPI } from '../services/api';
+import EventModal from '../components/EventModal';
 
 function Dashboard() {
   const { user, logout } = useAuth();
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [showModal, setShowModal] = useState(false);
 
   // useEffect runs when component loads (like componentDidMount)
   // The empty array [] means it only runs once when component mounts
@@ -32,6 +34,11 @@ function Dashboard() {
     window.location.href = '/login';
   };
 
+  const handleEventCreated = async () => {
+    await fetchEvents();
+    setShowModal(false);
+  };
+
   return (
     <div className="dashboard">
       <header className="dashboard-header">
@@ -50,7 +57,7 @@ function Dashboard() {
         ) : events.length === 0 ? (
           <div className="no-events">
             <p>No events yet. Create your first event!</p>
-            <button>Add Event</button>
+            <button onClick={() => setShowModal(true)}>Add Event</button>
           </div>
         ) : (
           <div className="events-list">
@@ -73,6 +80,12 @@ function Dashboard() {
           </div>
         )}
       </main>
+
+      <EventModal
+        isOpen={showModal}
+        onClose={() => setShowModal(false)}
+        onEventCreated={handleEventCreated}
+      />
     </div>
   );
 }
